@@ -1,11 +1,11 @@
-*{
+* {
   box-sizing: border-box;
 }
-body{
+body {
   font-family: Tahoma, Arial, sans-serif;
 }
 .repos-container {
-  width: 800px;
+  width: 80%;
   background-color: #f6f6f6;
   margin: auto;
 }
@@ -43,7 +43,10 @@ body{
 .repos-container .show-data .repo-box {
   background-color: #fff;
   padding: 15px;
+  display: flex;
+  justify-content: space-between;
 }
+
 .repos-container .show-data .repo-box:not(:last-child) {
   margin-bottom: 5px;
 }
@@ -64,4 +67,25 @@ body{
 }
 .repos-container .show-data .repo-box span {
   background-color: #009688;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 560px) {
+  .repos-container .get-repos {
+    flex-wrap: wrap;
+  }
+  .repos-container .get-repos .get-button {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .repos-container .show-data .repo-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .repos-container .show-data .repo-box > div {
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+  }
 }

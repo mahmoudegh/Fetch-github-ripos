@@ -1,6 +1,6 @@
-let theInput = document.querySelector('.get-repos input'),
-    getButton = document.querySelector('.get-button'),
-    reposData = document.querySelector('.show-data');
+let theInput = document.querySelector(".get-repos input"),
+  getButton = document.querySelector(".get-button"),
+  reposData = document.querySelector(".show-data");
 
 getButton.onclick = function () {
   getRepos();
@@ -8,70 +8,72 @@ getButton.onclick = function () {
 
 // Get repos function
 function getRepos() {
-
-  if (theInput.value == '') {
-    
-    reposData.innerHTML = '<span>Please write githup username</span>';
-
+  if (theInput.value == "") {
+    reposData.innerHTML = "<span>Please write githup username</span>";
   } else {
-    
     fetch(`https://api.github.com/users/${theInput.value}/repos`)
+      .then((response) => response.json())
 
-    .then((response) => response.json())
+      .then((repositories) => {
+        // Empty the container
+        reposData.innerHTML = "";
 
-    .then((repositories) => {
+        // Loop on repositories
+        repositories.forEach((repo) => {
+          // Create the main div element
+          let mainDiv = document.createElement("div");
 
-      // Empty the container
-      reposData.innerHTML = '';
+          // Create repo name text
+          let repoName = document.createTextNode(repo.name);
 
-      // Loop on repositories
-      repositories.forEach(repo => {
+          // Create buttons container
+          let btnContainer = document.createElement("div");
 
-        // Create the main div element
-        let mainDiv = document.createElement('div');
+          // Append the text to the main div
+          mainDiv.appendChild(repoName);
 
-        // Create repo name text
-        let repoName = document.createTextNode(repo.name);
+          // Create repo url anchor tag
+          let theUrl = document.createElement("a");
 
-        // Append the text to the main div
-        mainDiv.appendChild(repoName);
+          // Create repo url text
+          let theUrlText = document.createTextNode("Visit");
 
-        // Create repo url anchor tag
-        let theUrl = document.createElement('a');
+          // Append the repo url text to the anchor tag
+          theUrl.appendChild(theUrlText);
 
-        // Create repo url text
-        let theUrlText = document.createTextNode('Visit')
+          // Add the href
+          theUrl.href = `https://github.com/${theInput.value}/${repo.name}`;
 
-        // Append the repo url text to the anchor tag
-        theUrl.appendChild(theUrlText);
+          // Set attribute blank
+          theUrl.setAttribute("target", "_blank");
 
-        // Add the href
-        theUrl.href = `https://github.com/${theInput.value}/${repo.name}`;
+          // Append url anchor to main div
+          mainDiv.appendChild(theUrl);
 
-        // Set attribute blank
-        theUrl.setAttribute('target', '_blank');
+          // Create stars count span
+          let starsSpan = document.createElement("span");
 
-        // Append url anchor to main div
-        mainDiv.appendChild(theUrl);
+          // Create the stars count text
+          let starsText = document.createTextNode(`Stars ${repo.stargazers_count}`);
 
-        // Create stars count span
-        let starsSpan = document.createElement('span');
+          // Add stars count text to stars span
+          starsSpan.appendChild(starsText);
 
-        // Create the stars count text
-        let starsText = document.createTextNode(`Stars ${repo.stargazers_count}`);
+          // Append stars count span to the main div
+          mainDiv.appendChild(starsSpan);
 
-        // Add stars count text to stars span
-        starsSpan.appendChild(starsText);
+          // Append btns to btn container
+          btnContainer.appendChild(starsSpan);
+          btnContainer.appendChild(theUrl);
 
-        // Append stars count span to the main div
-        mainDiv.appendChild(starsSpan);
+          mainDiv.appendChild(btnContainer);
 
-        // Add class on main div
-        mainDiv.className = 'repo-box';
+          // Add class on main div
+          mainDiv.className = "repo-box";
 
-        // Append the main div to container
-        reposData.appendChild(mainDiv);
-      })
-    });
+          // Append the main div to container
+          reposData.appendChild(mainDiv);
+        });
+      });
   }
 }
