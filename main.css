@@ -64,6 +64,7 @@ body {
 .repos-container .show-data .repo-box a {
   background-color: #e91e63;
   text-decoration: none;
+  margin-bottom: 5px;
 }
 .repos-container .show-data .repo-box span {
   background-color: #009688;
